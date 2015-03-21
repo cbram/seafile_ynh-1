@@ -23,6 +23,7 @@
             },
             {
                 "name": "path",
+                "type": "path",
                 "ask": {
                     "en": "Choose a path for Seafile",
                     "fr": "Choisissez un chemin pour Seafile"
@@ -49,6 +50,7 @@
             },
             {
                 "name": "admin_password",
+                "type": "password",
                 "ask": {
                     "en": "Enter a password for the administrator",
                     "fr": "Entrez un mot de passe pour l'administrateur"
