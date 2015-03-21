@@ -14,6 +14,7 @@
         "install": [
             {
                 "name": "domain",
+                "type": "domain",
                 "ask": {
                     "en": "Choose a domain for Seafile",
                     "fr": "Choisissez un domaine pour Seafile"
