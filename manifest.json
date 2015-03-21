@@ -1,0 +1,68 @@
+{
+    "name": "Seafile",
+    "id": "seafile",
+    "description": {
+        "en": "Open Source Cloud Storage",
+        "fr": "Stockage Cloud Open Source"
+    },
+    "developer": {
+        "name": "Andrea Cotza",
+        "email": "andrea@cotza.me"
+    },
+    "multi_instance": "false",
+    "arguments": {
+        "install": [
+            {
+                "name": "domain",
+                "ask": {
+                    "en": "Choose a domain for Seafile",
+                    "fr": "Choisissez un domaine pour Seafile"
+                },
+                "example": "domain.org"
+            },
+            {
+                "name": "path",
+                "ask": {
+                    "en": "Choose a path for Seafile",
+                    "fr": "Choisissez un chemin pour Seafile"
+                },
+                "example": "/seafile",
+                "default": "/seafile"
+            },
+            {
+                "name": "server_name",
+                "ask": {
+                    "en": "Choose a name",
+                    "fr": "Choisissez un nom"
+                },
+                "example": "Seafile",
+                "default": "Seafile"
+            },
+            {
+                "name": "admin_email",
+                "ask": {
+                    "en": "Enter an email for the administrator",
+                    "fr": "Entrez une adresse email pour l'administrateur"
+                },
+                "example": "homer@domain.com"
+            },
+            {
+                "name": "admin_password",
+                "ask": {
+                    "en": "Enter a password for the administrator",
+                    "fr": "Entrez un mot de passe pour l'administrateur"
+                },
+                "example": "**Sup3rS3cr3t**"
+            },
+            {
+                "name": "public_site",
+                "ask": {
+                    "en": "Is it a public site ? If you want to use a desktop client or the smartphone app, make Seafile public.",
+                    "fr": "Est-ce un site public ? Pour utiliser un client sur PC ou l'application mobile, Seafile doit être public"
+                },
+                "choices": ["Yes", "No"],
+                "default": "Yes"
+            }
+        ]
+    }
+}
