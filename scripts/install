@@ -104,7 +104,7 @@ sudo sed -i "s@:8000@$path@g" $final_path/ccnet/ccnet.conf
 echo 'SERVE_STATIC = False' | sudo tee -a $final_path/seahub_settings.py
 echo 'MEDIA_URL = "'$path'/media/"' | sudo tee -a $final_path/seahub_settings.py
 echo 'SITE_ROOT = "'$path'/"' | sudo tee -a $final_path/seahub_settings.py
-echo 'FILE_SERVER_ROOT = "http://'$domain$path'"' | sudo tee -a $final_path/seahub_settings.py
+echo 'FILE_SERVER_ROOT = "https://'$domain'/seafhttp"' | sudo tee -a $final_path/seahub_settings.py
 
 
 # LDAP configuration
@@ -124,6 +124,9 @@ sudo cp ../conf/seafile-server /etc/init.d
 sudo chmod +x /etc/init.d/seafile-server
 sudo cp ../conf/seafile-server.conf /etc/init
 sudo update-rc.d seafile-server defaults
+
+# Configure for https
+sudo sed -i "s@http://$domain$path@https://$domain$path@g" $final_path/ccnet/ccnet.conf
 
 # Start Seafile Server
 sudo $final_path/seafile-server-$seafile_version/seafile.sh start
