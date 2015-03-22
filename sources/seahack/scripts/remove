@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Error: Remove the Seafile package to remove this hack"
+exit 1

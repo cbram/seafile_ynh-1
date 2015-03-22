@@ -1,0 +1,17 @@
+{
+    "name": "Seahack",
+    "id": "seahack",
+    "description": {
+        "en": "Hack to use Seafile with web, desktop and mobile clients",
+        "fr": "Hack pour utiliser Seafile avec des clients web, PC ou mobile"
+    },
+    "developer": {
+        "name": "CotzaDev",
+        "email": "andrea@cotza.me"
+    },
+    "multi_instance": "false",
+    "arguments": {
+        "install" : [
+        ]
+    }
+}

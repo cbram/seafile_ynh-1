@@ -104,7 +104,7 @@ sudo sed -i "s@:8000@$path@g" $final_path/ccnet/ccnet.conf
 echo 'SERVE_STATIC = False' | sudo tee -a $final_path/seahub_settings.py
 echo 'MEDIA_URL = "'$path'/media/"' | sudo tee -a $final_path/seahub_settings.py
 echo 'SITE_ROOT = "'$path'/"' | sudo tee -a $final_path/seahub_settings.py
-echo 'FILE_SERVER_ROOT = "https://'$domain'/seafhttp"' | sudo tee -a $final_path/seahub_settings.py
+echo 'FILE_SERVER_ROOT = "https://'$domain'/seafile/seafhttp"' | sudo tee -a $final_path/seahub_settings.py
 
 
 # LDAP configuration
@@ -140,6 +140,13 @@ sed -i "s@SEAFILE_FILESERVER_PORT@$seafile_fileserver_port@g" ../conf/nginx.conf
 sed -i "s@SEAFILE_PATH@$final_path@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/seafile.conf
 
+# Install the Hack
+# Why an hack ?
+# The lua script used for the access control on nginx check ngx.var.uri that store the uri.
+# Now the problem is that nginx rewrite the uri from /seafile/seafhttp/xxx/yyy to /xxx/yyy
+# for the seafile server. So we have to skip /xxx otherwise yunohost will rewrite them to
+# /yunohost/sso.
+sudo cp -r ../sources/seahack /etc/yunohost/apps/seahack 
 
 # Reload Nginx and regenerate SSOwat conf
 sudo service nginx reload

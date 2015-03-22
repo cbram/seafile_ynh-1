@@ -1,0 +1,8 @@
+allowed_users: nooneisallowed
+domain: ''
+id: seahack
+install_time: 1426870457
+label: Seahack
+mode: private
+path: ''
+skipped_uris: /upload-aj,/upload-api,/upload-blks-api,/update-blks-api,/files
