@@ -94,7 +94,7 @@ sudo cp ../sources/install.exp $final_path/seafile-server-$seafile_version/insta
 cd $final_path/seafile-server-$seafile_version
 sudo chmod +x ./install.exp
 sudo chmod +x ./setup-seafile-mysql.sh
-sudo ./install.exp $server_name $domain $ccnet_port $seafile_data $seafile_port $fileserver_port $db_pwd
+sudo ./install.exp $server_name $domain $ccnet_port $seafile_data $seafile_port $seafile_fileserver_port $db_pwd
 sudo rm ./install.exp
 cd $current_dir
 
