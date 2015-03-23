@@ -10,6 +10,7 @@ is_public=$6
 final_path=/var/www/seafile
 seafile_data=$final_path/seafile-data
 seafile_version=4.0.6
+current_dir=${PWD}
 
 # Check system architecture
 if [ -f /usr/bin/rpi-update ]; then
@@ -91,10 +92,12 @@ sudo yunohost app initdb -d seahubdb -p $db_pwd $db_user
 
 # Run install script
 sudo cp ../sources/install.exp $final_path/seafile-server-$seafile_version/install.exp
-sudo chmod +x $final_path/seafile-server-$seafile_version/install.exp
-sudo chmod +x $final_path/seafile-server-$seafile_version/setup-seafile-mysql.sh
-sudo $final_path/seafile-server-$seafile_version/install.exp $server_name $domain $ccnet_port $seafile_data $seafile_port $fileserver_port $db_pwd
-sudo rm $final_path/seafile-server-$seafile_version/install.exp
+cd $final_path/seafile-server-$seafile_version
+sudo chmod +x ./install.exp
+sudo chmod +x ./setup-seafile-mysql.sh
+sudo ./install.exp $server_name $domain $ccnet_port $seafile_data $seafile_port $fileserver_port $db_pwd
+sudo rm ./install.exp
+cd $current_dir
 
 # Update config
 sudo sed -i "s@:8000@$path@g" $final_path/ccnet/ccnet.conf
@@ -136,9 +139,11 @@ sudo sed -i "s@http://$domain$path@https://$domain$path@g" $final_path/ccnet/ccn
 # Start Seafile Server
 sudo $final_path/seafile-server-$seafile_version/seafile.sh start
 sudo cp ../sources/first_launch.exp $final_path/seafile-server-$seafile_version/first_launch.exp
-sudo chmod +x $final_path/seafile-server-$seafile_version/first_launch.exp
-sudo $final_path/seafile-server-$seafile_version/first_launch.exp $seahub_port $admin_email $admin_password
-sudo rm $final_path/seafile-server-$seafile_version/first_launch.exp
+cd $final_path/seafile-server-$seafile_version
+sudo chmod +x ./first_launch.exp
+sudo ./first_launch.exp $seahub_port $admin_email $admin_password
+sudo rm ./first_launch.exp
+cd $current_dir
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
