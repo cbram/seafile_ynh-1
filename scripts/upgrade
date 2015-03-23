@@ -1,0 +1,12 @@
+#!/bin/bash
+final_path=/var/www/seafile
+seafile_data=$final_path/seafile-data
+seafile_version=4.0.6
+
+# Include version.sh
+source $final_path/installed/version.sh
+
+f [ "$seafile_version" == "$current_version_full" ]; then
+  echo "Info: No updates are available at the moment, if a new version of seafile is out we will port the update soon."
+  exit;
+fi
