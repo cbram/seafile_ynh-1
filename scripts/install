@@ -129,7 +129,6 @@ sed -i "s@SEAHUB_PORT@$seahub_port@g" ../conf/seafile-server
 sed -i "s@SEAFILE_DIR@$final_path@g" ../conf/seafile-server
 sudo cp ../conf/seafile-server /etc/init.d
 sudo chmod +x /etc/init.d/seafile-server
-sudo cp ../conf/seafile-server.conf /etc/init
 sudo update-rc.d seafile-server defaults
 
 # Configure for https
