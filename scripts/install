@@ -56,7 +56,6 @@ sudo wget -P ../sources/ 'https://bitbucket.org/haiwen/seafile/downloads/seafile
 sudo mkdir -p $final_path
 sudo mkdir -p $final_path/installed
 sudo mkdir -p $final_path/logs
-sudo mkdir -p $final_path/seafile-data
 sudo mkdir -p $final_path/seafile-server-$seafile_version
 sudo tar xzf ../sources/'seafile-server_'$seafile_version'_'$env'.tar.gz'
 sudo mv seafile-server-$seafile_version/* $final_path/seafile-server-$seafile_version
