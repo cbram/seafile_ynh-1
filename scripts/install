@@ -90,9 +90,11 @@ sudo yunohost app initdb -d seafiledb -p $db_pwd $db_user
 sudo yunohost app initdb -d seahubdb -p $db_pwd $db_user
 
 # Run install script
-sudo chmod +x ../sources/install.exp
+sudo cp ../sources/install.exp $final_path/seafile-server-$seafile_version/install.exp
+sudo chmod +x $final_path/seafile-server-$seafile_version/install.exp
 sudo chmod +x $final_path/seafile-server-$seafile_version/setup-seafile-mysql.sh
-sudo ../sources/install.exp $server_name $domain $ccnet_port $seafile_data $seafile_port $fileserver_port $db_pwd $final_path/seafile-server-$seafile_version
+sudo $final_path/seafile-server-$seafile_version/install.exp $server_name $domain $ccnet_port $seafile_data $seafile_port $fileserver_port $db_pwd
+sudo rm $final_path/seafile-server-$seafile_version/install.exp
 
 # Update config
 sudo sed -i "s@:8000@$path@g" $final_path/ccnet/ccnet.conf
@@ -133,8 +135,10 @@ sudo sed -i "s@http://$domain$path@https://$domain$path@g" $final_path/ccnet/ccn
 
 # Start Seafile Server
 sudo $final_path/seafile-server-$seafile_version/seafile.sh start
-sudo chmod +x ../sources/first_launch.exp
-sudo ../sources/first_launch.exp $seahub_port $admin_email $admin_password $final_path/seafile-server-$seafile_version
+sudo cp ../sources/first_launch.exp $final_path/seafile-server-$seafile_version/first_launch.exp
+sudo chmod +x $final_path/seafile-server-$seafile_version/first_launch.exp
+sudo $final_path/seafile-server-$seafile_version/first_launch.exp $seahub_port $admin_email $admin_password
+sudo rm $final_path/seafile-server-$seafile_version/first_launch.exp
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
