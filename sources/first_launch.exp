@@ -1,0 +1,19 @@
+#!/usr/bin/expect
+set timeout 10
+
+set seahub_port [lindex $argv 0]
+set admin_email [lindex $argv 1]
+set admin_password [lindex $argv 2]
+
+spawn ./seahub.sh start-fastcgi $seahub_port
+
+expect "for the admin account?"
+send "$admin_email\r";
+
+expect "for the admin account?"
+send "$admin_password\r";
+
+expect "Enter the"
+send "$admin_password\r";
+
+interact

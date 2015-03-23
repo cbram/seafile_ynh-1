@@ -82,22 +82,19 @@ sudo yunohost app setting seafile seahub_port -v $seahub_port
 
 sudo yunohost app setting seafile is_public -v $is_public
 
-
-# Modify install script with parameters
-sed -i "s@SERVER_NAME@$server_name@g" ../sources/setup-seafile.sh
-sed -i "s@DOMAIN@$domain@g" ../sources/setup-seafile.sh
-sed -i "s@CCNET_PORT@$ccnet_port@g" ../sources/setup-seafile.sh
-sed -i "s@SEAFILE_DATA@$seafile_data@g" ../sources/setup-seafile.sh
-sed -i "s@SEAFILE_PORT@$seafile_port@g" ../sources/setup-seafile.sh
-sed -i "s@SEAFILE_FILESERVER_PORT@$seafile_fileserver_port@g" ../sources/setup-seafile.sh
-sed -i "s/ADMIN_EMAIL/$admin_email/g" ../sources/check_init_admin.py
-sed -i "s/ADMIN_PASSWORD/$admin_password/g" ../sources/check_init_admin.py
+# init databases
+db_user=seafile
+db_pwd=$(dd if=/dev/urandom bs=1 count=200 2> /dev/null | tr -c -d 'A-Za-z0-9' | sed -n 's/\(.\{24\}\).*/\1/p')
+sudo yunohost app initdb -d ccnetdb -p $db_pwd $db_user
+sudo yunohost app initdb -d seafiledb -p $db_pwd $db_user
+sudo yunohost app initdb -d seahubdb -p $db_pwd $db_user
 
 # Run install script
-sudo cp ../sources/check_init_admin.py $final_path/seafile-server-$seafile_version
-sudo cp ../sources/setup-seafile.sh $final_path/seafile-server-$seafile_version
-sudo chmod +x $final_path/seafile-server-$seafile_version/setup-seafile.sh
-sudo $final_path/seafile-server-$seafile_version/setup-seafile.sh
+sudo cp ../sources/install.exp $final_path/seafile-server-$seafile_version/install.exp
+sudo chmod +x $final_path/seafile-server-$seafile_version/install.exp
+sudo chmod +x $final_path/seafile-server-$seafile_version/setup-seafile-mysql.sh
+sudo $final_path/seafile-server-$seafile_version/install.exp $server_name $domain $ccnet_port $seafile_data $seafile_port $fileserver_port $db_pwd
+sudo rm $final_path/seafile-server-$seafile_version/install.exp
 
 # Update config
 sudo sed -i "s@:8000@$path@g" $final_path/ccnet/ccnet.conf
@@ -106,6 +103,14 @@ echo 'MEDIA_URL = "'$path'/media/"' | sudo tee -a $final_path/seahub_settings.py
 echo 'SITE_ROOT = "'$path'/"' | sudo tee -a $final_path/seahub_settings.py
 echo 'FILE_SERVER_ROOT = "https://'$domain'/seafile/seafhttp"' | sudo tee -a $final_path/seahub_settings.py
 
+# Email configuration
+echo 'EMAIL_USE_TLS = False' | sudo tee -a $final_path/seahub_settings.py
+echo 'EMAIL_HOST = "localhost"' | sudo tee -a $final_path/seahub_settings.py
+echo 'EMAIL_HOST_USER = "seafile@'$domain'"' | sudo tee -a $final_path/seahub_settings.py
+echo 'EMAIL_HOST_PASSWORD = ""' | sudo tee -a $final_path/seahub_settings.py
+echo 'EMAIL_PORT = "25"' | sudo tee -a $final_path/seahub_settings.py
+echo 'DEFAULT_FROM_EMAIL = "seafile@'$domain'"' | sudo tee -a $final_path/seahub_settings.py
+echo 'SERVER_EMAIL = "seafile@'$domain'"' | sudo tee -a $final_path/seahub_settings.py
 
 # LDAP configuration
 echo '[LDAP]' | sudo tee -a $final_path/ccnet/ccnet.conf
@@ -130,7 +135,9 @@ sudo sed -i "s@http://$domain$path@https://$domain$path@g" $final_path/ccnet/ccn
 
 # Start Seafile Server
 sudo $final_path/seafile-server-$seafile_version/seafile.sh start
-sudo $final_path/seafile-server-$seafile_version/seahub.sh start-fastcgi $seahub_port
+sudo cp ../sources/first_launch.exp $final_path/seafile-server-$seafile_version/first_launch.exp
+sudo $final_path/seafile-server-$seafile_version/first_launch.exp $seahub_port $admin_email $admin_password
+sudo rm $final_path/seafile-server-$seafile_version/first_launch.exp
 
 # Modify Nginx configuration file and copy it to Nginx conf directory
 sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
@@ -146,7 +153,7 @@ sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/seafile.conf
 # Now the problem is that nginx rewrite the uri from /seafile/seafhttp/xxx/yyy to /xxx/yyy
 # for the seafile server. So we have to skip /xxx otherwise yunohost will rewrite them to
 # /yunohost/sso.
-sudo cp -r ../sources/seahack /etc/yunohost/apps/seahack 
+sudo cp -r ../sources/seahack /etc/yunohost/apps/seahack
 
 # Reload Nginx and regenerate SSOwat conf
 sudo service nginx reload
