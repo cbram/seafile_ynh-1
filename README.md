@@ -10,36 +10,10 @@ Requirements
 
 Functionnal instance of [Yunohost](https://yunohost.org/#/)
 
-Installation
-------------
+Install and config
+------------------
 
-Through the administration web interface:
-
-Applications -> Install and copy the repo url in "Install custom app"
-
-`https://github.com/CotzaDev/seafile_ynh`
-
-From command line:
-
-`sudo yunohost app install https://github.com/CotzaDev/seafile_ynh`
-
-Upgrade
--------
-
-From command line:
-
-`sudo yunohost app upgrade https://github.com/CotzaDev/seafile_ynh`
-
-Remove
-------
-
-Through the administration web interface:
-
-Applications -> Seafile -> Remove
-
-From command line:
-
-`sudo yunohost app remove seafile`
+For more information on install and config, please visit our [Wiki](https://github.com/CotzaDev/seafile_ynh/wiki/)
 
 Infos
 -----

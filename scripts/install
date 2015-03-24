@@ -167,8 +167,9 @@ sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/seafile.conf
 # /yunohost/sso.
 sudo cp -r ../sources/seahack /etc/yunohost/apps/seahack
 
-# Reload Nginx and regenerate SSOwat conf
+# Reload Nginx, restart seafile and regenerate SSOwat conf
 sudo service nginx reload
+sudo service seafile-server restart
 sudo yunohost app ssowatconf
 
 # Open port
