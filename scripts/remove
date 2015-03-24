@@ -24,4 +24,7 @@ then
   sudo yunohost firewall disallow $seafile_port
 fi
 
+# Remove the service
+sudo yunohost service remove seafile-server
+
 sudo yunohost app ssowatconf
