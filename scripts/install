@@ -147,7 +147,7 @@ sudo chown -R www-data:www-data $seafile_data
 sudo su - www-data -c "$final_path/seafile-server-$seafile_version/seafile.sh start"
 cd $final_path/seafile-server-$seafile_version
 sudo chmod +x ./first_launch.exp
-sudo su - www-data -c "./first_launch.exp $seahub_port $admin_email $admin_password"
+sudo su - www-data -c "$final_path/seafile-server-$seafile_version/first_launch.exp $seahub_port $admin_email $admin_password"
 sudo rm ./first_launch.exp
 cd $current_dir
 
