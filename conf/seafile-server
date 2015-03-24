@@ -10,7 +10,7 @@
 ### END INIT INFO
 #
 # Change the value of "user" to your linux user name
-user=root
+user=www-data
 
 # Change the value of "seafile_dir" to your path of seafile installation
 seafile_dir=SEAFILE_DIR
