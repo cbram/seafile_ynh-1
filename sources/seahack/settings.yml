@@ -5,4 +5,4 @@ install_time: 1426870457
 label: Seahack
 mode: private
 path: ''
-skipped_uris: /upload-aj,/upload-api,/upload-blks-api,/update-blks-api,/files
+skipped_uris: /upload-aj,/upload-api,/upload-blks-api,/update-blks-api,/files,/seafhttp,/protocol-version,/repo
