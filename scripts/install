@@ -66,7 +66,7 @@ sudo mkdir -p $final_path/logs
 sudo mkdir -p $final_path/seafile-server-$seafile_version
 sudo tar xzf ../sources/'seafile-server_'$seafile_version'_'$env'.tar.gz'
 sudo mv seafile-server-$seafile_version/* $final_path/seafile-server-$seafile_version
-sudo cp ../sources/version.sh $final_path/installed
+sudo cp ../sources/version.sh $final_path/installed/version.sh
 sudo chmod +x $final_path/installed/version.sh
 
 # Set permissions to seafile directory

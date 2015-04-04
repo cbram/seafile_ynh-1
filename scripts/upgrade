@@ -42,8 +42,8 @@ else
   # Stop seafile server
   sudo service seafile-server stop
 
-  if ["$current_version_main" == "4"]; then
-    if ["$current_version_small" == "0"]; then
+  if [ "$current_version_main" == "4" ]; then
+    if [ "$current_version_small" == "0" ]; then
       # Run update script
       sudo cp ../sources/upgrade_4.0_4.1.exp $final_path/seafile-server-$seafile_version/upgrade/upgrade_4.0_4.1.exp
       cd $final_path/seafile-server-$seafile_version
@@ -75,7 +75,7 @@ else
 
   # Update version script
   sudo rm $final_path/installed/version.sh
-  sudo cp ../sources/version.sh $final_path/installed
+  sudo cp ../sources/version.sh $final_path/installed/version.sh
   sudo chmod +x $final_path/installed/version.sh
 
   # Reload Nginx and regenerate SSOwat conf
