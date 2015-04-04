@@ -64,6 +64,10 @@ else
 
     fi
   fi
+
+  # Symlink for media
+  sudo ln -s $final_path/seafile-server-$seafile_version/seahub/media/ $final_path/seafile-server-$seafile_version/seafile/media
+
   # Set permissions
   sudo chown -R www-data:www-data $final_path
 
@@ -71,7 +75,7 @@ else
   sudo service seafile-server start
 
   # Remove old version files
-  sudo rm -f $final_path/seafile-server_$current_version_full
+  sudo rm -f $final_path/seafile-server-$current_version_full
 
   # Update version script
   sudo rm $final_path/installed/version.sh
