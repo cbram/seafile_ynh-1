@@ -7,10 +7,8 @@ server_name=$3
 admin_email=$4
 admin_password=$5
 is_public=$6
-open_ports=$7
 final_path=/var/www/seafile
 seafile_data=$final_path/seafile-data
-seafile_version=4.0.6
 current_dir=${PWD}
 
 # Check system architecture
@@ -23,6 +21,14 @@ elif [ `getconf LONG_BIT` -eq 32 ]; then
 else
   echo "Error: Architecture not recognized"
   exit 1
+fi
+
+# RPI version is not up to date
+if [ "$env" = "pi" ];
+then
+  seafile_version=4.0.6
+else
+  seafile_version=4.1.2
 fi
 
 port=''
@@ -82,7 +88,6 @@ sudo yunohost app setting seafile seafile_fileserver_port -v $seafile_fileserver
 sudo yunohost app setting seafile seahub_port -v $seahub_port
 
 sudo yunohost app setting seafile is_public -v $is_public
-sudo yunohost app setting seafile open_ports -v $open_ports
 
 # init databases
 db_user=seafile
@@ -173,7 +178,7 @@ sudo service seafile-server restart
 sudo yunohost app ssowatconf
 
 # Open port
-if [ "$open_ports" = "Yes" ];
+if [ "$env" = "pi" ];
 then
   sudo yunohost firewall allow $ccnet_port
   sudo yunohost firewall allow $seafile_port

@@ -18,9 +18,13 @@ For more information on install and config, please visit our [Wiki](https://gith
 Infos
 -----
 
+Seafile server v4.1.2
+
+Available for x64 and x86 architecture
+
 Seafile server v4.0.6
 
-Available for x64, x86 and arm (Raspberry) architecture but only tested for x64 (feedback are welcome)
+Available arm (Raspberry) architecture, but not tested (feedbacks are welcome)
 
 TODO
 -----

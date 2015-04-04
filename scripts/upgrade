@@ -1,12 +1,82 @@
 #!/bin/bash
 final_path=/var/www/seafile
 seafile_data=$final_path/seafile-data
-seafile_version=4.0.6
+mysql_pwd=$(sudo cat /etc/yunohost/mysql)
+current_dir=${PWD}
 
 # Include version.sh
 source $final_path/installed/version.sh
 
-f [ "$seafile_version" == "$current_version_full" ]; then
+# Check system architecture
+if [ -f /usr/bin/rpi-update ]; then
+  env=pi
+elif [ `getconf LONG_BIT` -eq 64 ]; then
+  env=x86-64
+elif [ `getconf LONG_BIT` -eq 32 ]; then
+  env=i386
+else
+  echo "Error: Architecture not recognized"
+  exit 1
+fi
+
+# RPI version is not up to date
+if [ "$env" = "pi" ];
+then
+  seafile_version=4.0.6
+else
+  seafile_version=4.1.2
+fi
+
+if [ "$seafile_version" == "$current_version_full" ]; then
   echo "Info: No updates are available at the moment, if a new version of seafile is out we will port the update soon."
   exit;
+else
+  # Download seafile package
+  sudo wget -P ../sources/ 'https://bitbucket.org/haiwen/seafile/downloads/seafile-server_'$seafile_version'_'$env'.tar.gz'
+  sudo mkdir -p $final_path/seafile-server-$seafile_version
+  sudo tar xzf ../sources/'seafile-server_'$seafile_version'_'$env'.tar.gz'
+  sudo mv seafile-server-$seafile_version/* $final_path/seafile-server-$seafile_version
+
+  # Stop seafile server
+  sudo service seafile-server stop
+
+  if ["$current_version_main" == "4"]; then
+    if ["$current_version_small" == "0"]; then
+      # Run update script
+      sudo cp ../sources/upgrade_4.0_4.1.exp $final_path/seafile-server-$seafile_version/upgrade/upgrade_4.0_4.1.exp
+      cd $final_path/seafile-server-$seafile_version
+      sudo chmod +x ./upgrade/upgrade_4.0_4.1.exp
+      sudo chmod +x ./upgrade/upgrade_4.0_4.1.sh
+      sudo ./upgrade/upgrade_4.0_4.1.exp $mysql_pwd
+      sudo rm ./upgrade/upgrade_4.0_4.1.exp
+      cd $current_dir
+
+      # Close ports if necessary
+      open_ports=$(sudo yunohost app setting seafile open_ports)
+      if [ "$open_ports" = "Yes" ];
+      then
+        sudo yunohost firewall disallow $ccnet_port
+        sudo yunohost firewall disallow $seafile_port
+        sudo yunohost app setting seafile open_ports -v "No"
+      fi
+
+    fi
+  fi
+  # Set permissions
+  sudo chown -R www-data:www-data $final_path
+
+  # Start seafile server
+  sudo service seafile-server start
+
+  # Remove old version files
+  sudo rm -f $final_path/seafile-server_$current_version_full
+
+  # Update version script
+  sudo rm $final_path/installed/version.sh
+  sudo cp ../sources/version.sh $final_path/installed
+  sudo chmod +x $final_path/installed/version.sh
+
+  # Reload Nginx and regenerate SSOwat conf
+  sudo service nginx reload
+  sudo yunohost app ssowatconf
 fi

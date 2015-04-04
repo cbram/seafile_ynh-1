@@ -65,15 +65,6 @@
                 },
                 "choices": ["Yes", "No"],
                 "default": "Yes"
-            },
-            {
-                "name": "open_ports",
-                "ask": {
-                    "en": "Open Seafile ports ? If you choose no, you'll need to enable file syncing with HTTP protocol in the advanced settings of Seafile client.",
-                    "fr": "Ouvrir les ports de Seafile ? Si vous choisissez non, vous devrez activer la synchronisation par protocole HTTP dans les paramètres avancés du client Seafile."
-                },
-                "choices": ["Yes", "No"],
-                "default": "Yes"
             }
         ]
     }

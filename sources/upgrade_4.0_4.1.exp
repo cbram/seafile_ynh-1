@@ -1,0 +1,15 @@
+#!/usr/bin/expect
+set timeout 10
+
+set mysql_pwd [lindex $argv 0]
+set dir [exec pwd]
+
+spawn $dir/upgrade/upgrade_4.0_4.1.sh
+
+expect "to contiune"
+send "\r";
+
+expect "What is the root password for mysql?"
+send "$mysql_pwd\r";
+
+interact
