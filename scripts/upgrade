@@ -1,4 +1,6 @@
 #!/bin/bash
+app=seafile
+
 final_path=/var/www/seafile
 seafile_data=$final_path/seafile-data
 mysql_pwd=$(sudo cat /etc/yunohost/mysql)
