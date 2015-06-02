@@ -24,9 +24,9 @@ fi
 # RPI version is not up to date
 if [ "$env" = "pi" ];
 then
-  seafile_version=4.0.6
-else
   seafile_version=4.1.2
+else
+  seafile_version=4.2.2
 fi
 
 if [ "$seafile_version" == "$current_version_full" ]; then
@@ -34,7 +34,12 @@ if [ "$seafile_version" == "$current_version_full" ]; then
   exit;
 else
   # Download seafile package
-  sudo wget -P ../sources/ 'https://bitbucket.org/haiwen/seafile/downloads/seafile-server_'$seafile_version'_'$env'.tar.gz'
+  if [ "$env" = "pi" ];
+  then
+    sudo wget -P ../sources/ 'https://github.com/haiwen/seafile-rpi/releases/download/v4.1.2/seafile-server_'$seafile_version'_'$env'.tar.gz'
+  else
+    sudo wget -P ../sources/ 'https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_'$seafile_version'_'$env'.tar.gz'
+  fi
   sudo mkdir -p $final_path/seafile-server-$seafile_version
   sudo tar xzf ../sources/'seafile-server_'$seafile_version'_'$env'.tar.gz'
   sudo mv seafile-server-$seafile_version/* $final_path/seafile-server-$seafile_version
@@ -61,7 +66,16 @@ else
         sudo yunohost firewall disallow $seafile_port
         sudo yunohost app setting seafile open_ports -v "No"
       fi
-
+    fi
+    if [ "$env" != "pi" ]; then
+      # Upgrade to 4.2.2
+      sudo cp ../sources/upgrade_4.1_4.2.exp $final_path/seafile-server-$seafile_version/upgrade/upgrade_4.1_4.2.exp
+      cd $final_path/seafile-server-$seafile_version
+      sudo chmod +x ./upgrade/upgrade_4.1_4.2.exp
+      sudo chmod +x ./upgrade/upgrade_4.1_4.2.sh
+      sudo ./upgrade/upgrade_4.1_4.2.exp
+      sudo rm ./upgrade/upgrade_4.1_4.2.exp
+      cd $current_dir
     fi
   fi
 
@@ -79,7 +93,12 @@ else
 
   # Update version script
   sudo rm $final_path/installed/version.sh
-  sudo cp ../sources/version.sh $final_path/installed/version.sh
+  if [ "$env" = "pi" ];
+  then
+    sudo cp ../sources/version_pi.sh $final_path/installed/version.sh
+  else
+    sudo cp ../sources/version.sh $final_path/installed/version.sh
+  fi
   sudo chmod +x $final_path/installed/version.sh
 
   # Reload Nginx and regenerate SSOwat conf
