@@ -26,9 +26,9 @@ fi
 # RPI version is not up to date
 if [ "$env" = "pi" ];
 then
-  seafile_version=4.1.2
+  seafile_version=4.0.6
 else
-  seafile_version=4.2.2
+  seafile_version=4.1.2
 fi
 
 port=''
@@ -57,12 +57,7 @@ fi
 sudo apt-get install -y python2.7 python-setuptools python-simplejson python-imaging python-mysqldb expect
 
 # Download seafile package
-if [ "$env" = "pi" ];
-then
-  sudo wget -P ../sources/ 'https://github.com/haiwen/seafile-rpi/releases/download/v4.1.2/seafile-server_'$seafile_version'_'$env'.tar.gz'
-else
-  sudo wget -P ../sources/ 'https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_'$seafile_version'_'$env'.tar.gz'
-fi
+sudo wget -P ../sources/ 'https://bitbucket.org/haiwen/seafile/downloads/seafile-server_'$seafile_version'_'$env'.tar.gz'
 
 # Copy files to the right place
 sudo mkdir -p $final_path
@@ -71,12 +66,7 @@ sudo mkdir -p $final_path/logs
 sudo mkdir -p $final_path/seafile-server-$seafile_version
 sudo tar xzf ../sources/'seafile-server_'$seafile_version'_'$env'.tar.gz'
 sudo mv seafile-server-$seafile_version/* $final_path/seafile-server-$seafile_version
-if [ "$env" = "pi" ];
-then
-  sudo cp ../sources/version_pi.sh $final_path/installed/version.sh
-else
-  sudo cp ../sources/version.sh $final_path/installed/version.sh
-fi
+sudo cp ../sources/version.sh $final_path/installed/version.sh
 sudo chmod +x $final_path/installed/version.sh
 
 # Set permissions to seafile directory
