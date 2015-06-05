@@ -40,7 +40,7 @@ else
   sudo mv seafile-server-$seafile_version/* $final_path/seafile-server-$seafile_version
 
   # Stop seafile server
-  sudo service seafile-server stop
+  sudo /etc/init.d/seafile-server stop
 
   if [ "$current_version_main" == "4" ]; then
     if [ "$current_version_small" == "0" ]; then
@@ -72,10 +72,10 @@ else
   sudo chown -R www-data:www-data $final_path
 
   # Start seafile server
-  sudo service seafile-server start
+  sudo /etc/init.d/seafile-server start
 
   # Remove old version files
-  sudo rm -f $final_path/seafile-server-$current_version_full
+  sudo rm -r $final_path/seafile-server-$current_version_full
 
   # Update version script
   sudo rm $final_path/installed/version.sh
