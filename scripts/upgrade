@@ -45,7 +45,7 @@ else
   sudo mv seafile-server-$seafile_version/* $final_path/seafile-server-$seafile_version
 
   # Stop seafile server
-  sudo service seafile-server stop
+  sudo /etc/init.d/seafile-server stop
 
   if [ "$current_version_main" == "4" ]; then
     if [ "$current_version_small" == "0" ]; then
@@ -76,6 +76,8 @@ else
       sudo ./upgrade/upgrade_4.1_4.2.exp
       sudo rm ./upgrade/upgrade_4.1_4.2.exp
       cd $current_dir
+      echo 'COMPRESS_URL = MEDIA_URL' | sudo tee -a $final_path/seahub_settings.py
+      echo 'STATIC_URL = MEDIA_URL+"assets/"' | sudo tee -a $final_path/seahub_settings.py
     fi
   fi
 
@@ -86,7 +88,7 @@ else
   sudo chown -R www-data:www-data $final_path
 
   # Start seafile server
-  sudo service seafile-server start
+  sudo /etc/init.d/seafile-server start
 
   # Remove old version files
   sudo rm -f $final_path/seafile-server-$current_version_full

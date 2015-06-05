@@ -130,6 +130,8 @@ echo 'EMAIL_HOST_PASSWORD = ""' | sudo tee -a $final_path/seahub_settings.py
 echo 'EMAIL_PORT = "25"' | sudo tee -a $final_path/seahub_settings.py
 echo 'DEFAULT_FROM_EMAIL = "seafile@'$domain'"' | sudo tee -a $final_path/seahub_settings.py
 echo 'SERVER_EMAIL = "seafile@'$domain'"' | sudo tee -a $final_path/seahub_settings.py
+echo 'COMPRESS_URL = MEDIA_URL' | sudo tee -a $final_path/seahub_settings.py
+echo 'STATIC_URL = MEDIA_URL+"assets/"' | sudo tee -a $final_path/seahub_settings.py
 
 # LDAP configuration
 echo '[LDAP]' | sudo tee -a $final_path/ccnet/ccnet.conf
@@ -184,7 +186,7 @@ sudo cp -r ../sources/seahack /etc/yunohost/apps/seahack
 
 # Reload Nginx, restart seafile and regenerate SSOwat conf
 sudo service nginx reload
-sudo service seafile-server restart
+sudo /etc/init.d/seafile-server restart
 sudo yunohost app ssowatconf
 
 # Open port
