@@ -5,13 +5,6 @@ Seafile is an open Source Cloud Storage application.
 
 Official website: <http://seafile.com/>
 
-4.2.2 update information
-------------------------
-
-The version 4.2.2 of seafile crash after the login on my server.
-So I'll wait the next update to retry.
-
-
 Requirements
 ------------
 
