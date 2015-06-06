@@ -26,7 +26,7 @@ fi
 # RPI version is not up to date
 if [ "$env" = "pi" ];
 then
-  seafile_version=4.1.2
+  seafile_version=4.2.2
 else
   seafile_version=4.2.2
 fi
@@ -59,7 +59,7 @@ sudo apt-get install -y python2.7 python-setuptools python-simplejson python-ima
 # Download seafile package
 if [ "$env" = "pi" ];
 then
-  sudo wget -P ../sources/ 'https://github.com/haiwen/seafile-rpi/releases/download/v4.1.2/seafile-server_'$seafile_version'_'$env'.tar.gz'
+  sudo wget -P ../sources/ 'https://github.com/haiwen/seafile-rpi/releases/download/v'$seafile_version'_'$env'/seafile-server_'$seafile_version'_'$env'.tar.gz'
 else
   sudo wget -P ../sources/ 'https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_'$seafile_version'_'$env'.tar.gz'
 fi
