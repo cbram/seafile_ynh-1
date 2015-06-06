@@ -22,7 +22,7 @@ Seafile server v4.2.2
 
 Available for x64 and x86 architecture
 
-Seafile server v4.1.2
+Seafile server v4.2.2
 
 Available arm (Raspberry) architecture, but not tested (feedbacks are welcome)
 
